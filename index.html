@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChronoPulse Stopwatch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <div class="background-glow"></div>
+    <div class="floating-shapes" aria-hidden="true">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+      <span class="blob blob-4"></span>
+    </div>
+
+    <header class="topbar" aria-label="Stopwatch dashboard">
+      <div class="brand-wrap">
+        <div class="brand-badge">ChronoPulse</div>
+        <p class="brand-copy">Professional Stopwatch for portfolios &amp; product demos</p>
+      </div>
+      <div class="dashboard-panel">
+        <div class="dashboard-card" aria-label="Current date">
+          <span class="dashboard-label">Date</span>
+          <strong id="displayDate">Loading...</strong>
+        </div>
+        <div class="dashboard-card" aria-label="Current day">
+          <span class="dashboard-label">Day</span>
+          <strong id="displayDay">Loading...</strong>
+        </div>
+        <div class="dashboard-card" aria-label="Live clock">
+          <span class="dashboard-label">Live Clock</span>
+          <strong id="displayClock">00:00:00</strong>
+        </div>
+        <div class="dashboard-card status-card" aria-label="Application status">
+          <span class="dashboard-label">Status</span>
+          <strong id="statusText"><span class="status-dot status-ready"></span> Ready</strong>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="timer-panel" aria-label="Stopwatch controls">
+        <div class="timer-card glass-card">
+          <div class="timer-head">
+            <div>
+              <p class="section-label">Stopwatch</p>
+              <h1 class="timer-title">Precision timer</h1>
+            </div>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
+              <span class="toggle-track"><span class="toggle-thumb"></span></span>
+              <span class="toggle-text">Theme</span>
+            </button>
+          </div>
+
+          <div class="timer-display-shell">
+            <div class="progress-ring" aria-hidden="true">
+              <svg viewBox="0 0 220 220" aria-hidden="true">
+                <circle class="ring-bg" cx="110" cy="110" r="98"></circle>
+                <circle class="ring-progress" cx="110" cy="110" r="98"></circle>
+              </svg>
+            </div>
+
+            <div class="timer-display" id="timerDisplay" aria-live="polite" aria-atomic="true">
+              <span class="time-block"><strong id="hours">00</strong><small>HH</small></span>
+              <span class="separator">:</span>
+              <span class="time-block"><strong id="minutes">00</strong><small>MM</small></span>
+              <span class="separator">:</span>
+              <span class="time-block"><strong id="seconds">00</strong><small>SS</small></span>
+              <span class="separator">:</span>
+              <span class="time-block"><strong id="milliseconds">000</strong><small>MS</small></span>
+            </div>
+          </div>
+
+          <div class="timer-info-grid">
+            <div class="status-pill"><span class="indicator running" id="pulseIndicator"></span> <span id="runtimeLabel">Idle</span></div>
+            <div class="summary-item"><span>Total</span><strong id="elapsedSummary">00:00:00.000</strong></div>
+            <div class="summary-item"><span>Laps</span><strong id="lapCount">0</strong></div>
+          </div>
+
+          <div class="controls-grid">
+            <button class="action-button primary" id="startButton" type="button" aria-label="Start stopwatch">▶ Start</button>
+            <button class="action-button secondary disabled" id="pauseButton" type="button" aria-label="Pause stopwatch" disabled>⏸ Pause</button>
+            <button class="action-button secondary disabled" id="lapButton" type="button" aria-label="Record lap" disabled>⏱ Lap</button>
+            <button class="action-button tertiary disabled" id="resetButton" type="button" aria-label="Reset stopwatch" disabled>⟲ Reset</button>
+          </div>
+
+          <div class="utility-grid">
+            <button class="utility-button" id="fullscreenButton" type="button" aria-label="Enter fullscreen mode">⛶ Fullscreen</button>
+            <button class="utility-button" id="copyButton" type="button" aria-label="Copy lap times">📋 Copy laps</button>
+            <button class="utility-button" id="downloadButton" type="button" aria-label="Download lap times">⬇ Download</button>
+            <button class="utility-button" id="clearLapsButton" type="button" aria-label="Clear all laps" disabled>🗑 Clear laps</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="laps-panel glass-card" aria-label="Lap tracker">
+        <div class="laps-header">
+          <div>
+            <p class="section-label">Lap tracker</p>
+            <h2>Lap history</h2>
+          </div>
+          <div class="lap-highlights">
+            <span class="highlight fast">Fastest</span>
+            <span class="highlight slow">Slowest</span>
+            <span class="highlight recent">Recent</span>
+          </div>
+        </div>
+
+        <div class="lap-summary">
+          <p id="lapPlaceholder" class="placeholder">No laps recorded yet. Record your first lap to see performance insights.</p>
+          <ul class="lap-list" id="lapList" aria-live="polite" aria-atomic="false"></ul>
+        </div>
+      </section>
+    </main>
+
+    <footer class="app-footer">
+      <div class="shortcut-grid" aria-label="Keyboard shortcuts">
+        <div><kbd>Space</kbd><span>Start / Pause</span></div>
+        <div><kbd>L</kbd><span>Record Lap</span></div>
+        <div><kbd>R</kbd><span>Reset</span></div>
+        <div><kbd>T</kbd><span>Toggle Theme</span></div>
+      </div>
+      <p class="footer-copy">Designed for portfolios, presentations, and premium front-end showcases.</p>
+    </footer>
+
+    <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
