@@ -248,7 +248,7 @@ h2 {
   background: rgba(255, 255, 255, 0.04);
   color: var(--text);
   cursor: pointer;
-  transition: transform 180ms ease, background 180ms ease;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
 }
 
 .theme-toggle:hover {
@@ -263,6 +263,7 @@ h2 {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   position: relative;
+  transition: background 260ms ease;
 }
 
 .toggle-thumb {
@@ -280,9 +281,18 @@ h2 {
   transform: translateX(26px);
 }
 
-.toggle-text {
+.theme-toggle.active .toggle-track {
+  background: rgba(255, 255, 255, 0.24);
+}
+
+.toggle-label {
   font-size: 0.92rem;
   color: var(--muted);
+  transition: color 220ms ease;
+}
+
+.theme-toggle.active .toggle-label {
+  color: var(--text);
 }
 
 .timer-display-shell {
@@ -535,6 +545,35 @@ h2 {
   letter-spacing: 0.02em;
 }
 
+.empty-state {
+  display: grid;
+  justify-items: center;
+  gap: 10px;
+  animation: fadeUp 300ms ease-out;
+}
+
+.empty-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  font-size: 1.65rem;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.empty-state strong {
+  font-size: 1.05rem;
+  color: var(--text);
+}
+
+.empty-state p {
+  margin: 0;
+  max-width: 320px;
+  color: var(--muted);
+}
+
 .lap-list {
   list-style: none;
   margin: 0;
@@ -625,11 +664,12 @@ h2 {
   color: #ff95cd;
 }
 
-.lap-item.recent {
+.lap-item.latest {
   border-color: rgba(106, 123, 255, 0.35);
+  box-shadow: inset 0 0 0 1px rgba(106, 123, 255, 0.24), 0 18px 40px rgba(37, 51, 116, 0.16);
 }
 
-.lap-item.recent .lap-label {
+.lap-item.latest .lap-label {
   background: rgba(106, 123, 255, 0.12);
   color: #c4cfff;
 }
@@ -638,6 +678,17 @@ h2 {
   from {
     opacity: 0;
     transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -718,9 +769,25 @@ kbd {
   font-size: 0.98rem;
 }
 
+.button-ripple {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(0);
+  pointer-events: none;
+  animation: ripple 460ms ease-out;
+}
+
 @keyframes toastIn {
   from { opacity: 0; transform: translateY(18px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ripple {
+  to {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 button:focus-visible,
@@ -728,6 +795,24 @@ button:focus-visible,
 .lap-item:focus-visible {
   outline: 2px solid rgba(68, 217, 255, 0.8);
   outline-offset: 4px;
+}
+
+.action-button,
+.utility-button,
+.theme-toggle {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.action-button:hover,
+.utility-button:hover,
+.theme-toggle:hover {
+  box-shadow: 0 18px 36px rgba(25, 32, 70, 0.22);
+}
+
+.app-shell.light-theme {
+  color-scheme: light;
 }
 
 @media (max-width: 1100px) {

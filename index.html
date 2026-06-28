@@ -52,9 +52,9 @@
               <p class="section-label">Stopwatch</p>
               <h1 class="timer-title">Precision timer</h1>
             </div>
-            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme">
-              <span class="toggle-track"><span class="toggle-thumb"></span></span>
-              <span class="toggle-text">Theme</span>
+            <button class="theme-toggle" id="themeToggle" type="button" aria-label="Toggle theme" aria-pressed="false">
+              <span class="toggle-track" aria-hidden="true"><span class="toggle-thumb"></span></span>
+              <span class="toggle-label">🌙 Dark</span>
             </button>
           </div>
 
@@ -113,7 +113,11 @@
         </div>
 
         <div class="lap-summary">
-          <p id="lapPlaceholder" class="placeholder">No laps recorded yet. Record your first lap to see performance insights.</p>
+          <div id="lapPlaceholder" class="placeholder empty-state" role="status">
+            <span class="empty-icon" aria-hidden="true">⏱</span>
+            <strong>No laps recorded yet.</strong>
+            <p>Press the Lap button to record your first lap.</p>
+          </div>
           <ul class="lap-list" id="lapList" aria-live="polite" aria-atomic="false"></ul>
         </div>
       </section>
